@@ -33,7 +33,7 @@ class Chat:
         kw_only=True
     )
     messages: set[Message] = field(
-        default_factory=setg,
+        default_factory=set,
         kw_only=True,
     )
 
