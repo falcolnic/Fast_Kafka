@@ -17,7 +17,7 @@ class BaseValueObject(ABC, Generic[VT]):
         ...
 
     @abstractmethod
-    def as_generic_type(self):
+    def as_generic_type(self) -> VT:
         ...
 
 
