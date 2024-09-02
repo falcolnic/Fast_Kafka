@@ -385,6 +385,21 @@ tomli = {version = ">=1", markers = "python_version < \"3.11\""}
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
+name = "pytest-asyncio"
+version = "0.24.0"
+description = "Pytest support for asyncio"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+pytest = ">=8.2,<9"
+
+[package.extras]
+docs = ["sphinx (>=5.3)", "sphinx-rtd-theme (>=1.0)"]
+testing = ["coverage (>=6.2)", "hypothesis (>=5.7.1)"]
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -485,7 +500,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "e7771826f6b41271c966e9f8b4af9ce5ba5082012c11ead388ab1217a58aef5f"
+content-hash = "6f0b7b151830162653ec022ca5bdc2b00c6f8bb622ba3f4936328cf1f5a05bda"
 
 [metadata.files]
 annotated-types = []
@@ -517,6 +532,7 @@ pydantic-core = []
 pygments = []
 pymongo = []
 pytest = []
+pytest-asyncio = []
 six = []
 sniffio = []
 stack-data = []
