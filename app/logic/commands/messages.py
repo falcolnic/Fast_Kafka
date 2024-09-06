@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Any
 
 from domain.entities.messages import Chat
 from domain.values.messages import Title

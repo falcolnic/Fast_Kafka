@@ -3,7 +3,7 @@ import pytest
 from domain.entities.messages import Chat
 from domain.values.messages import Title
 from infra.repositorie.messages import BaseChatRepository
-from logic.commands.message import CreateChatCommand
+from logic.commands.messages import CreateChatCommand
 from logic.exceptions.messages import ChatWithThatTitleAlreadyExistsException
 from logic.mediator import Mediator
 
@@ -17,9 +17,10 @@ async def test_create_chat_command_success(
 
 ):
         # TODO: Add faker for generation random tests
-        chat: Chat = (await mediator.handle_command(CreateChatCommand(title=faker.text())))[0]
+        chat: Chat
+        chat, *_ = await mediator.handle_command(CreateChatCommand(title=faker.text()))
 
-        assert await chat_repository.check_chat_exists_by_title(title=chat.title.as_generic_type)
+        assert await chat_repository.check_chat_exists_by_title(title=chat.title.as_generic_type())
 
 
 @pytest.mark.asyncio

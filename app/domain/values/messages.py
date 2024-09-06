@@ -25,6 +25,5 @@ class Title(BaseValueObject):
         if len(self.value) > 255:
             raise TitleTooLongException(self.value)
 
-    @property
     def as_generic_type(self):
         return str(self.value)

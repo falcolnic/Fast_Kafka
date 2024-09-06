@@ -8,8 +8,8 @@ from domain.events.base import BaseEvent
 class BaseCommand(ABC):
     ...
 
-ET = TypeVar(name='ET', bound=BaseEvent)
-ER = TypeVar(name='ER', bound=Any)
+ET = TypeVar('ET', bound=BaseEvent)
+ER = TypeVar('ER', bound=Any)
 
 
 @dataclass
