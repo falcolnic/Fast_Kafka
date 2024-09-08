@@ -401,6 +401,23 @@ python-versions = ">=3.8"
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [[package]]
+name = "pydantic-settings"
+version = "2.4.0"
+description = "Settings management using Pydantic"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+pydantic = ">=2.7.0"
+python-dotenv = ">=0.21.0"
+
+[package.extras]
+azure-key-vault = ["azure-identity (>=1.16.0)", "azure-keyvault-secrets (>=4.8.0)"]
+toml = ["tomli (>=2.0.1)"]
+yaml = ["pyyaml (>=6.0.1)"]
+
+[[package]]
 name = "pygments"
 version = "2.18.0"
 description = "Pygments is a syntax highlighting package written in Python."
@@ -476,6 +493,17 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 
 [package.dependencies]
 six = ">=1.5"
+
+[[package]]
+name = "python-dotenv"
+version = "1.0.1"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.extras]
+cli = ["click (>=5.0)"]
 
 [[package]]
 name = "six"
@@ -578,7 +606,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "bf098eac8878a174ae2ef51dbeeca4f138c21c0b54e6b4157fa95469f6dab7da"
+content-hash = "4552741c822657b04a74d2cd8b743c99572bf75c3f29b5fc4220d8d4293bfcb9"
 
 [metadata.files]
 annotated-types = []
@@ -612,11 +640,13 @@ punq = []
 pure-eval = []
 pydantic = []
 pydantic-core = []
+pydantic-settings = []
 pygments = []
 pymongo = []
 pytest = []
 pytest-asyncio = []
 python-dateutil = []
+python-dotenv = []
 six = []
 sniffio = []
 stack-data = []
