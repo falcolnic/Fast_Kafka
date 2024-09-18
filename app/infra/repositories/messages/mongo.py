@@ -21,6 +21,7 @@ class MongoDBChatRepository(BaseChatRepository):
 
         return bool(await collection.find_one(filter={'title': title}))
 
+
     async def add_chat(self, chat: Chat) -> None:
         collection = self._get_chat_collection()
         await collection.insert_one(convert_chat_entity_to_document(chat))
