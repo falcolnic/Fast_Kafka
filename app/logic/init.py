@@ -19,8 +19,6 @@ def init_container():
 def _init_container() -> Container:
     container = Container()
 
-    container.register(CreateChatCommandHandler)
-    container.register(CreateMessageCommandHandler)
     container.register(Config, instance=Config(), scope=Scope.singleton)
 
     config: Config = container.resolve(Config)
@@ -42,7 +40,7 @@ def _init_container() -> Container:
         return MongoDBMessagesRepository(
             mongo_db_client=client,
             mongo_db_db_name=config.mongodb_chat_database,
-            mongo_db_collection_name=config.mongodb_chat_collection,
+            mongo_db_collection_name=config.mongodb_messages_collection,
         )
 
 
@@ -61,7 +59,6 @@ def _init_container() -> Container:
             CreateChatCommand,
             [container.resolve(CreateChatCommandHandler)],
         )
-        
         mediator.register_command(
             CreateMessageCommand,
             [container.resolve(CreateMessageCommandHandler)],
