@@ -4,19 +4,22 @@ from fastapi import Depends, status
 from fastapi.exceptions import HTTPException
 from fastapi.routing import APIRouter
 
+from application.api.messages.filters import GetMessagesFilters
 from application.api.messages.schemas import (
     ChatDetailSchema,
     CreateChatRequestSchema,
     CreateChatResponseSchema,
     CreateMessageResponseSchema,
-    CreateMessageSchema  
+    CreateMessageSchema,
+    GetMessagesQueryResponseSchema,
+    MessageDetailSchema  
 )
 from application.api.schemas import ErrorSchema
 from domain.exceptions.base import ApplicationException
 from logic.commands.messages import CreateChatCommand, CreateMessageCommand
 from logic.init import init_container
 from logic.mediator import Mediator
-from logic.queries.messages import GetChatDetailQuery
+from logic.queries.messages import GetChatDetailQuery, GetMessagesQuery
 
 
 router = APIRouter(tags=['Chat'])
@@ -70,7 +73,7 @@ async def create_message_handler(
 
 
 @router.get(
-    '/{chat_oid}/messages',
+    '/{chat_oid}/',
     status_code=status.HTTP_200_OK,
     description='Get information about chat and all messages in it',
     responses={
@@ -90,3 +93,35 @@ async def get_chat_with_messages_handler(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': exception.message})
 
     return ChatDetailSchema.from_entity(chat)
+
+
+@router.get(
+    '/{chat_oid}/messages/',
+    status_code=status.HTTP_200_OK,
+    description='All sent messages in chat',
+    responses={
+        status.HTTP_200_OK: {'model': GetMessagesQueryResponseSchema},
+        status.HTTP_400_BAD_REQUEST: {'model': ErrorSchema},
+    },
+)
+async def get_chat_messages_handler(
+    chat_oid: str,
+    filters: GetMessagesFilters = Depends(),
+    contaier: Container = Depends(init_container)
+) -> GetMessagesQueryResponseSchema:
+    mediator: Mediator = contaier.resolve(Mediator)
+
+    try:
+        messages, count = await mediator.handle_query(
+            GetMessagesQuery(chat_oid=chat_oid, filters=filters.to_infra())
+        )
+    except ApplicationException as exception:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': exception.message})
+
+
+    return GetMessagesQueryResponseSchema(
+        count=count,
+        limit=filters.limit,
+        offset=filters.offset,
+        items=[MessageDetailSchema.from_entity(message) for message in messages],
+    )
