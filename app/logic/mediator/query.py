@@ -1,7 +1,5 @@
 
 from abc import ABC, abstractmethod
-from collections import defaultdict
-from collections.abc import Iterable
 from dataclasses import dataclass, field
 
 from logic.queries.base import QR, QT, BaseQuery, BaseQueryHandler

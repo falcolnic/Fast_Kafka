@@ -6,7 +6,6 @@ from dataclasses import dataclass, field
 
 from domain.events.base import BaseEvent
 from logic.events.base import ER, ET, EventHandler
-from logic.exceptions.mediator import EventHandlersNotRegisteredException
 
 
 @dataclass(frozen=True)
@@ -15,6 +14,7 @@ class EventMediator(ABC):
         default_factory=lambda: defaultdict(list),
         kw_only=True,
     )
+
 
     @abstractmethod
     def register_event(self, event: ET, event_handlers: Iterable[EventHandler[ET, ER]]):
