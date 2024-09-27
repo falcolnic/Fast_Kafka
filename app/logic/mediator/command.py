@@ -5,7 +5,6 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 
 from logic.commands.base import CR, CT, BaseCommand, CommandHandler
-from logic.exceptions.mediator import CommandHandlersNotRegisteredException
 
 
 @dataclass(frozen=True)
