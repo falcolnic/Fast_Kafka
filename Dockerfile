@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apt update -y && \
     apt install -y python3-dev \
     gcc \
-    musl-dev 
+    musl-dev
 
 ADD pyproject.toml /app
 
