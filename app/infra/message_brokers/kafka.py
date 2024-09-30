@@ -10,7 +10,6 @@ class KafkaMessageBroker(BaseMessageBroker):
     producer: AIOKafkaProducer
 
     async def send_message(self, key: bytes, topic: str, value: bytes):
-        await self.producer.start()
         await self.producer.send(topic=topic, key=key, value=value) 
 
 
