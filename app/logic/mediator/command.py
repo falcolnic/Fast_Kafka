@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from logic.commands.base import CR, CT, BaseCommand, CommandHandler
 
 
-@dataclass(frozen=True)
+@dataclass(eq=False)
 class CommandMediator(ABC):
     commands_map: dict[CT, CommandHandler] = field(
         default_factory=lambda: defaultdict(list),

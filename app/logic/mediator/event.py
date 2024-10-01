@@ -8,7 +8,7 @@ from domain.events.base import BaseEvent
 from logic.events.base import ER, ET, EventHandler
 
 
-@dataclass(frozen=True)
+@dataclass(eq=False)
 class EventMediator(ABC):
     events_map: dict[ET, EventHandler] = field(
         default_factory=lambda: defaultdict(list),

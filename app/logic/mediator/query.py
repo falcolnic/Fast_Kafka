@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from logic.queries.base import QR, QT, BaseQuery, BaseQueryHandler
 
 
-@dataclass(frozen=True)
+@dataclass(eq=False)
 class QueryMediator(ABC):
     queries_map: dict[QT, BaseQueryHandler] = field(
         default_factory=dict,
@@ -13,7 +13,7 @@ class QueryMediator(ABC):
     )
 
     @abstractmethod
-    def register_query(self, query: QT, query_handler: BaseQueryHandler[QT, QR]):
+    def register_query(self, query: QT, query_handler: BaseQueryHandler[QT, QR]) -> QR:
         ...
 
     @abstractmethod
