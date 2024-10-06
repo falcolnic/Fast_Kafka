@@ -3,6 +3,7 @@ import asyncio
 async def consume():
     consumer = AIOKafkaConsumer(
         'test-topic',
+        api_version= "2.8.1",
         bootstrap_servers='kafka:29092',
         group_id="chat",
     )
