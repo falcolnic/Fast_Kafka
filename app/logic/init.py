@@ -4,6 +4,7 @@ from punq import Container, Scope
 
 from motor.motor_asyncio import AsyncIOMotorClient
 
+from application.api.common.websockets.managers import BaseConnectionManager, ConnectionManager
 from domain.events.message import NewChatCreatedEvent, NewMessageReceivedEvent
 from infra.message_brokers.base import BaseMessageBroker
 from infra.message_brokers.kafka import KafkaMessageBroker
@@ -128,5 +129,6 @@ def _init_container() -> Container:
 
     container.register(Mediator, factory=init_mediator)
     container.register(EventMediator, factory=init_mediator)
+    container.register(BaseConnectionManager, instance=ConnectionManager(), scope=Scope.singleton)
 
     return container
