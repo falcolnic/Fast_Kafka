@@ -27,7 +27,6 @@ router = APIRouter(tags=['Chat'])
 
 @router.post(
     '/',
-    # response_model=CreateChatResponseSchema,
     status_code=status.HTTP_201_CREATED,
     description='The endpoint creates a new chat. If a chat with the same title exists, it returns a 400 error.',
     responses={
@@ -35,7 +34,10 @@ router = APIRouter(tags=['Chat'])
         status.HTTP_400_BAD_REQUEST: {'model': ErrorSchema},
     },
 )
-async def create_chat_handler(schema: CreateChatRequestSchema, container: Container = Depends(init_container)) -> CreateChatResponseSchema:
+async def create_chat_handler(
+    schema: CreateChatRequestSchema, 
+    container: Container = Depends(init_container)
+) -> CreateChatResponseSchema:
     '''Create a new chat'''
     mediator: Mediator = container.resolve(Mediator)
 
