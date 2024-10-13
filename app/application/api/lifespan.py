@@ -1,6 +1,5 @@
-from domain.events.message import NewMessageReceivedFromBrokerEvent
 from infra.message_brokers.base import BaseMessageBroker
-
+from logic.events.messages import NewMessageReceivedFromBrokerEvent
 from logic.init import init_container
 from logic.mediator.base import Mediator
 from settings.config import Config
@@ -27,6 +26,7 @@ async def consume_in_background():
                 chat_oid=msg['chat_oid'],
             ),
         ])
+
 
 async def close_message_broker():
     container = init_container()

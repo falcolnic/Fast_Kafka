@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from typing import AsyncIterator, Coroutine
+from typing import AsyncIterator
 
+import orjson
 from aiokafka import AIOKafkaConsumer
 from aiokafka.producer import AIOKafkaProducer
-import orjson
 
 from infra.message_brokers.base import BaseMessageBroker
 
@@ -13,13 +13,11 @@ class KafkaMessageBroker(BaseMessageBroker):
     producer: AIOKafkaProducer
     consumer: AIOKafkaConsumer
 
-
     async def send_message(self, key: bytes, topic: str, value: bytes):
-        await self.producer.send(topic=topic, key=key, value=value) 
+        await self.producer.send(topic=topic, key=key, value=value)
 
-    async def start_consuming(self, topic: str) -> AsyncIterator[dict]: # type: ignore
+    async def start_consuming(self, topic: str) -> AsyncIterator[dict]:  # type: ignore
         self.consumer.subscribe(topics=[topic])
-
 
         async for message in self.consumer:
             yield orjson.loads(message.value)

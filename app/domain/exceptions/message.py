@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from domain.exceptions.base import ApplicationException
 
+from domain.exceptions.base import ApplicationException
 
 
 @dataclass(eq=False)
@@ -10,7 +10,8 @@ class TitleTooLongException(ApplicationException):
     @property
     def message(self):
         return f'Text "{self.text}" is too long'
-    
+
+
 @dataclass(eq=False)
 class EmptyTextException(ApplicationException):
     @property
