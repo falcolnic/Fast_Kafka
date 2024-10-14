@@ -1,8 +1,11 @@
-from punq import Container
-
-from fastapi import Depends, status
+from fastapi import (
+    Depends,
+    status,
+)
 from fastapi.exceptions import HTTPException
 from fastapi.routing import APIRouter
+
+from punq import Container
 
 from application.api.messages.filters import GetMessagesFilters
 from application.api.messages.schemas import (
@@ -12,14 +15,20 @@ from application.api.messages.schemas import (
     CreateMessageResponseSchema,
     CreateMessageSchema,
     GetMessagesQueryResponseSchema,
-    MessageDetailSchema  
+    MessageDetailSchema,
 )
 from application.api.schemas import ErrorSchema
 from domain.exceptions.base import ApplicationException
-from logic.commands.messages import CreateChatCommand, CreateMessageCommand
+from logic.commands.messages import (
+    CreateChatCommand,
+    CreateMessageCommand,
+)
 from logic.init import init_container
 from logic.mediator.base import Mediator
-from logic.queries.messages import GetChatDetailQuery, GetMessagesQuery
+from logic.queries.messages import (
+    GetChatDetailQuery,
+    GetMessagesQuery,
+)
 
 
 router = APIRouter(tags=['Chat'])
@@ -35,10 +44,10 @@ router = APIRouter(tags=['Chat'])
     },
 )
 async def create_chat_handler(
-    schema: CreateChatRequestSchema, 
-    container: Container = Depends(init_container)
+    schema: CreateChatRequestSchema,
+    container: Container = Depends(init_container),
 ) -> CreateChatResponseSchema:
-    '''Create a new chat'''
+    """Create a new chat."""
     mediator: Mediator = container.resolve(Mediator)
 
     try:
@@ -61,16 +70,16 @@ async def create_chat_handler(
 async def create_message_handler(
         chat_oid: str,
         schema: CreateMessageSchema,
-        container: Container = Depends(init_container)
+        container: Container = Depends(init_container),
 ) -> CreateMessageResponseSchema:
-    '''Create a new message'''
+    """Create a new message."""
     mediator: Mediator = container.resolve(Mediator)
 
-    try: 
+    try:
         message, *_ = await mediator.handle_command(CreateMessageCommand(text=schema.text, chat_oid=chat_oid))
     except ApplicationException as exception:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': exception.message})
-    
+
     return CreateMessageResponseSchema.from_entity(message)
 
 
@@ -85,7 +94,7 @@ async def create_message_handler(
 )
 async def get_chat_with_messages_handler(
     chat_oid: str,
-    contaier: Container = Depends(init_container)
+    contaier: Container = Depends(init_container),
 ) -> ChatDetailSchema:
     mediator: Mediator = contaier.resolve(Mediator)
 
@@ -109,17 +118,16 @@ async def get_chat_with_messages_handler(
 async def get_chat_messages_handler(
     chat_oid: str,
     filters: GetMessagesFilters = Depends(),
-    contaier: Container = Depends(init_container)
+    contaier: Container = Depends(init_container),
 ) -> GetMessagesQueryResponseSchema:
     mediator: Mediator = contaier.resolve(Mediator)
 
     try:
         messages, count = await mediator.handle_query(
-            GetMessagesQuery(chat_oid=chat_oid, filters=filters.to_infra())
+            GetMessagesQuery(chat_oid=chat_oid, filters=filters.to_infra()),
         )
     except ApplicationException as exception:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': exception.message})
-
 
     return GetMessagesQueryResponseSchema(
         count=count,

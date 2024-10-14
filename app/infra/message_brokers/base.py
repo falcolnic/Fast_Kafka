@@ -1,4 +1,7 @@
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod,
+)
 from dataclasses import dataclass
 from typing import AsyncIterator
 
@@ -8,6 +11,7 @@ class BaseMessageBroker(ABC):
     @abstractmethod
     async def start(self):
         ...
+
     @abstractmethod
     async def close(self):
         ...

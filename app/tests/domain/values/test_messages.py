@@ -1,11 +1,18 @@
 from datetime import datetime
 from uuid import uuid4
+
 import pytest
 
-from domain.entities.messages import Chat, Message
+from domain.entities.messages import (
+    Chat,
+    Message,
+)
 from domain.events.message import NewMessageReceivedEvent
 from domain.exceptions.message import TitleTooLongException
-from domain.values.messages import Text, Title
+from domain.values.messages import (
+    Text,
+    Title,
+)
 
 
 def test_create_message_success_short_text():
@@ -49,6 +56,7 @@ def test_add_chat_to_message():
 
     assert message in chat.messages
 
+
 def test_new_message_events():
     text = Text('hello world')
     message = Message(text=text, chat_oid=str(uuid4()))
@@ -62,9 +70,9 @@ def test_new_message_events():
 
     assert not pulled_events, pulled_events
     assert len(events) == 1, events
-    
+
     new_event = events[0]
-    
+
     assert isinstance(new_event, NewMessageReceivedEvent), new_event
     assert new_event.message_oid == message.oid
     assert new_event.message_text == message.text.as_generic_type()

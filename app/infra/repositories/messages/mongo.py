@@ -4,10 +4,22 @@ from typing import Iterable
 
 from motor.core import AgnosticClient
 
-from domain.entities.messages import Chat, Message
+from domain.entities.messages import (
+    Chat,
+    Message,
+)
 from infra.repositories.filters.messages import GetMessagesFilters
-from infra.repositories.messages.base import BaseChatsRepository, BaseMessagesRepository
-from infra.repositories.messages.converters import convert_chat_document_to_entity, convert_chat_entity_to_document, convert_message_document_to_entity, convert_message_entity_to_document
+from infra.repositories.messages.base import (
+    BaseChatsRepository,
+    BaseMessagesRepository,
+)
+from infra.repositories.messages.converters import (
+    convert_chat_document_to_entity,
+    convert_chat_entity_to_document,
+    convert_message_document_to_entity,
+    convert_message_entity_to_document,
+)
+
 
 @dataclass
 class BaseMongoDBRepository(ABC):
@@ -24,9 +36,9 @@ class BaseMongoDBRepository(ABC):
 class MongoDBChatsRepository(BaseChatsRepository, BaseMongoDBRepository):
     async def get_chat_by_oid(self, oid: str) -> Chat | None:
         chat_document = await self._collection.find_one(filter={'oid': oid})
-        
+
         if not chat_document:
-            return None 
+            return None
 
         return convert_chat_document_to_entity(chat_document)
 
@@ -43,7 +55,7 @@ class MongoDBMessagesRepository(BaseMessagesRepository, BaseMongoDBRepository):
         await self._collection.insert_one(
             document=convert_message_entity_to_document(message),
         )
-    
+
     async def get_messages(self, chat_oid: str, filters: GetMessagesFilters) -> tuple[Iterable[Message], int]:
         find = {'chat_oid': chat_oid}
         cursor = self._collection.find(find).skip(filters.offset).limit(filters.limit)
