@@ -45,6 +45,8 @@ from logic.events.messages import (
 from logic.mediator.base import Mediator
 from logic.mediator.event import EventMediator
 from logic.queries.messages import (
+    GetAllChatsQuery,
+    GetAllChatsQueryHandler,
     GetChatDetailQuery,
     GetChatDetailQueryHandler,
     GetMessagesQuery,
@@ -95,6 +97,7 @@ def _init_container() -> Container:
     # Query Handler
     container.register(GetChatDetailQueryHandler)
     container.register(GetMessagesQueryHandler)
+    container.register(GetAllChatsQueryHandler)
 
     def create_message_broker() -> BaseMessageBroker:
         return KafkaMessageBroker(
@@ -141,6 +144,7 @@ def _init_container() -> Container:
             connection_manager=container.resolve(BaseConnectionManager),
         )
 
+        # Events
         mediator.register_event(
             NewChatCreatedEvent,
             [new_chat_created_event_handler],
@@ -153,6 +157,8 @@ def _init_container() -> Container:
             NewMessageReceivedFromBrokerEvent,
             [new_message_received_from_broker_event_handler],
         )
+
+        # Commands
         mediator.register_command(
             CreateChatCommand,
             [create_chat_handler],
@@ -161,6 +167,8 @@ def _init_container() -> Container:
             CreateMessageCommand,
             [create_message_handler],
         )
+
+        # Queries
         mediator.register_query(
             GetChatDetailQuery,
             container.resolve(GetChatDetailQueryHandler),
@@ -168,6 +176,10 @@ def _init_container() -> Container:
         mediator.register_query(
             GetMessagesQuery,
             container.resolve(GetMessagesQueryHandler),
+        )
+        mediator.register_query(
+            GetAllChatsQuery,
+            container.resolve(GetAllChatsQueryHandler),
         )
 
         return mediator
