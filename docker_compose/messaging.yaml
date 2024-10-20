@@ -17,6 +17,8 @@ services:
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: main-kafka
+    depends_on:
+    - zookeeper
     ports:
       - 29092:29092
     hostname: kafka
