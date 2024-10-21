@@ -15,7 +15,7 @@ from infra.websockets.managers import BaseConnectionManager
 
 
 @dataclass(frozen=True)
-class BaseCommand(ABC):
+class BaseCommand(ABC):  # noqa: B024
     ...
 
 

@@ -3,7 +3,7 @@ from abc import (
     abstractmethod,
 )
 from dataclasses import dataclass
-from typing import AsyncIterator
+from typing import AsyncIterator  # noqa: UP035
 
 
 @dataclass

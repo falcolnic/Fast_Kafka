@@ -11,7 +11,7 @@ from typing import (
 
 
 @dataclass(frozen=True)
-class BaseQuery(ABC):
+class BaseQuery(ABC):  # noqa: B024
     ...
 
 

@@ -13,7 +13,7 @@ from logic.mediator.event import EventMediator
 
 
 @dataclass(frozen=True)
-class BaseCommand(ABC):
+class BaseCommand(ABC):  # noqa: B024
     ...
 
 

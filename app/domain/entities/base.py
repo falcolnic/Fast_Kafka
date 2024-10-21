@@ -11,7 +11,7 @@ from domain.events.base import BaseEvent
 
 
 @dataclass
-class BaseEntity(ABC):
+class BaseEntity(ABC):  # noqa: B024
     oid: str = field(
         default_factory=lambda: str(uuid4()),
         kw_only=True,
