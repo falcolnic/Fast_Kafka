@@ -3,7 +3,7 @@ from abc import (
     abstractmethod,
 )
 from dataclasses import dataclass
-from typing import Iterable
+from typing import Iterable  # noqa: UP035
 
 from domain.entities.messages import (
     Chat,
