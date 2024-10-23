@@ -3,5 +3,12 @@ __pycache__/
 *.pyc
 .vscode/
 .env
-.idea/
 requirements.*.txt
+
+
+# IDEA
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.idea
+.idea/

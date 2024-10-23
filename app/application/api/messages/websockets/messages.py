@@ -23,8 +23,9 @@ async def messages_handler(
     container: Container = Depends(init_container),
 ):
     connection_manager: BaseConnectionManager = container.resolve(BaseConnectionManager)
-
+    # TODO: Check if chat exists before connecting
     await connection_manager.accept_connection(websocket=websocket, key=chat_oid)
+
     await websocket.send_text("You are connected!")
 
     try:
@@ -32,5 +33,4 @@ async def messages_handler(
             await websocket.receive_text()
 
     except WebSocketDisconnect:
-        print("Connection broken")
         await connection_manager.remove_connection(websocket=websocket, key=chat_oid)
