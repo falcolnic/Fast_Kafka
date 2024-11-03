@@ -18,7 +18,7 @@ app-dev-logs:
 
 .PHONY: storages
 storages:
-	${DC} -f ${MONGO} ${ENV} up -d --build
+	${DC} -f ${MONGO} -f ${MONGO_EXPRESS} ${ENV} up -d --build
 
 .PHONY: down-dev
 down-dev:
