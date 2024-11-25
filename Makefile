@@ -22,7 +22,7 @@ storages:
 
 .PHONY: down-dev
 down-dev:
-	${DC} -f ${APP_DEV} -f ${KAFKA} ${ENV} down
+	${DC} -f ${A	PP_DEV} -f ${KAFKA} ${ENV} down
 
 .PHONY: down
 down:

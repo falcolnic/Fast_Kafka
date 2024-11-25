@@ -28,6 +28,7 @@ async def test_create_chat_command_title_already_exists(
     mediator: Mediator,
     faker: Faker,
 ):
+    # test
     # TODO: #11 Add faker for generation random tests
     title_text = faker.text()
     chat = Chat(title=Title(title_text))
